@@ -11,6 +11,19 @@ This is an A2UI (Agent-to-UI) v0.9 implementation project with:
 
 The project showcases how agents can generate rich, interactive UIs using JSON without executing arbitrary code.
 
+### Current Status (January 2026)
+
+✅ **Fully functional end-to-end implementation**
+- Contact form example renders and submits correctly
+- All A2UI v0.9 protocol messages supported
+- Both ChildList formats handled (simple array and wrapped object)
+- Data binding with JSON Pointer working
+- User actions successfully sent to server
+
+**Recent Fixes:**
+- `f68683d` - Support both ChildList formats per A2UI v0.9 spec
+- `b381742` - Resolve SwiftUI initialization issues in interactive components
+
 ## Architecture
 
 ### iOS Client Structure
@@ -54,15 +67,17 @@ swift test --package-path ios-client/A2UIExamplePackage
 
 ### Server Operations
 ```bash
-# Start mock server (no dependencies)
-node simple-server.js
+# Start mock server (recommended - uses pre-built dist)
+cd mock-server && node dist/server.js
 
-# Start Express-based server
-cd mock-server && npm install && node server.js
+# Rebuild TypeScript and start server
+cd mock-server && npm install && npm run build && node dist/server.js
 
 # Test server endpoints
 node test-server.js
 ```
+
+**Note:** The TypeScript build may have type errors, but the pre-built `dist/server.js` works correctly with the JSON payloads.
 
 ### Testing Endpoints
 ```bash
@@ -96,6 +111,27 @@ Components bind to data using JSON Pointer paths:
   "value": { "path": "/form/name" }
 }
 ```
+
+### ChildList Format Support
+The iOS client supports **both** A2UI v0.9 ChildList formats:
+
+**Simple array format** (Protocol 0.9.md):
+```json
+{
+  "component": "Column",
+  "children": ["child1", "child2", "child3"]
+}
+```
+
+**Wrapped object format** (Components Reference):
+```json
+{
+  "component": "Column",
+  "children": {"explicitList": ["child1", "child2", "child3"]}
+}
+```
+
+The decoder automatically handles both formats, making the client compatible with various server implementations.
 
 ### Supported Components
 - **Layout**: Column, Row
