@@ -67,17 +67,21 @@ swift test --package-path ios-client/A2UIExamplePackage
 
 ### Server Operations
 ```bash
-# Start mock server (recommended - uses pre-built dist)
-cd mock-server && node dist/server.js
+# Start mock server (development mode with auto-reload)
+cd mock-server && npm run dev
 
-# Rebuild TypeScript and start server
-cd mock-server && npm install && npm run build && node dist/server.js
+# Build and start server (production mode)
+cd mock-server && npm start
 
-# Test server endpoints
-node test-server.js
+# First time setup
+cd mock-server && npm install
 ```
 
-**Note:** The TypeScript build may have type errors, but the pre-built `dist/server.js` works correctly with the JSON payloads.
+**Important:**
+- Always use npm scripts (`npm run dev` or `npm start`) - never run compiled JS directly
+- The TypeScript build may show type errors in `server.ts` but the server runs correctly
+- Use `npm run dev` for development (auto-reloads on file changes)
+- Use `npm start` for production (builds TypeScript first)
 
 ### Testing Endpoints
 ```bash

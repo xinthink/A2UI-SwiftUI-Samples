@@ -45,16 +45,20 @@ A2UI-Example/
 ### 1. Start the Mock Server
 
 ```bash
-# Using the standalone server (no npm dependencies)
-node simple-server.js
-
-# Or using the Express-based server
+# First time setup
 cd mock-server
 npm install
-node server.js
+
+# Development mode (with auto-reload)
+npm run dev
+
+# Or production mode (builds TypeScript first)
+npm start
 ```
 
 The server will start on http://localhost:3000
+
+**Note:** Always use npm scripts - never run the compiled JavaScript files directly.
 
 ### 2. Run the iOS Client
 
@@ -160,9 +164,10 @@ The mock server provides:
 - POST endpoint to receive user actions
 - Sample UIs: Contact Form, User Profile, Todo List
 
-**Options:**
-- `simple-server.js` - Standalone server with zero dependencies
-- `mock-server/server.js` - Express-based server with more features
+**Available npm scripts:**
+- `npm run dev` - Development mode with TypeScript auto-reload
+- `npm start` - Production mode (builds and runs)
+- `npm run build` - Build TypeScript to JavaScript
 
 ### Client Implementation
 
@@ -185,13 +190,23 @@ Key Features:
 
 ## Testing
 
-Run the test script to verify the server:
+Test the server endpoints manually:
 
 ```bash
-node test-server.js
-```
+# Health check
+curl http://localhost:3000/health
 
-This will test all endpoints and verify the JSON structure.
+# Get form example
+curl http://localhost:3000/api/form
+
+# Get profile example
+curl http://localhost:3000/api/profile
+
+# Send action
+curl -X POST http://localhost:3000/api/action \
+  -H "Content-Type: application/json" \
+  -d '{"action":"test","surface_id":"test"}'
+```
 
 ## Architecture Notes
 
