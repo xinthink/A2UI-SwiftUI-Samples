@@ -123,6 +123,11 @@ public enum DynamicBoolean: Codable, Equatable, Sendable {
 
 // MARK: - ChildList
 
+/// Helper for decoding wrapped explicit list format: {"explicitList": ["id1", "id2"]}
+private struct ExplicitListWrapper: Decodable {
+    let explicitList: [String]
+}
+
 /// Defines how containers hold children - either explicit list or template
 public enum ChildList: Codable, Equatable, Sendable {
     case explicitList([String])
@@ -130,17 +135,21 @@ public enum ChildList: Codable, Equatable, Sendable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        // Try decoding as template first
+        // Try decoding as template first (object with dataBinding/componentId)
         if let template = try? container.decode(TemplateDefinition.self) {
             self = .template(template)
         }
-        // Try decoding as explicit list
+        // Try decoding as explicit list (direct array) - Protocol 0.9.md format
         else if let explicitList = try? container.decode([String].self) {
             self = .explicitList(explicitList)
+        }
+        // Try decoding as wrapped object {"explicitList": [...]} - Components Reference format
+        else if let wrapper = try? container.decode(ExplicitListWrapper.self) {
+            self = .explicitList(wrapper.explicitList)
         } else {
             throw DecodingError.dataCorruptedError(
                 in: container,
-                debugDescription: "ChildList must be either an array or a TemplateDefinition object"
+                debugDescription: "ChildList must be an array, TemplateDefinition, or {explicitList: [...]}"
             )
         }
     }
