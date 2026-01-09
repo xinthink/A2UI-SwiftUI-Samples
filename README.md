@@ -15,12 +15,16 @@ A2UI is a JSON-based protocol that allows agents to generate rich, interactive u
 
 ```
 A2UI-Example/
-├── ios-client/
-│   └── A2UIExample.swift      # Complete iOS SwiftUI implementation
-├── mock-server/
-│   └── server.js              # Node.js mock server with sample payloads
-├── simple-server.js           # Standalone Node.js server (no dependencies)
-└── test-server.js            # Test script for server endpoints
+├── ios-client/                     # iOS SwiftUI client
+│   ├── A2UIExample.xcworkspace/    # Open this in Xcode
+│   ├── A2UIExample.xcodeproj/      # App shell project
+│   ├── A2UIExample/                # App wrapper (minimal)
+│   ├── A2UIExamplePackage/         # Swift Package with A2UI implementation
+│   │   ├── Sources/
+│   │   └── Tests/                  # Unit tests
+│   └── Config/                     # Build settings & entitlements
+├── mock-server/                    # Express-based Node.js server
+└── docs/A2UI/                     # Protocol specification docs
 ```
 
 ## Features
@@ -54,16 +58,22 @@ The server will start on http://localhost:3000
 
 ### 2. Run the iOS Client
 
-The iOS client is implemented as a single Swift file that can be:
-- Run in a Swift Playground
-- Integrated into an Xcode project
-- Executed as a Swift package
+The iOS client uses a modern **workspace + Swift Package** architecture. Open the workspace in Xcode:
 
-To test in a Swift Playground:
-1. Open Xcode
-2. Create a new playground
-3. Copy the contents of `ios-client/A2UIExample.swift`
-4. Run the playground
+```bash
+open ios-client/A2UIExample.xcworkspace
+```
+
+**Architecture:**
+- **App Shell**: `A2UIExample/` contains minimal code (just `@main` and entry views)
+- **Implementation**: All A2UI logic is in `A2UIExamplePackage/` as a Swift Package
+
+In Xcode:
+1. Select the **A2UIExample** scheme
+2. Choose your target device/simulator
+3. Build and run (⌘R)
+
+The app will connect to the mock server at `http://localhost:3000` and render A2UI components.
 
 ### 3. Test the Endpoints
 
@@ -148,16 +158,30 @@ The mock server provides:
 - HTTP endpoints returning static A2UI JSON payloads
 - CORS support for cross-origin requests
 - POST endpoint to receive user actions
-- Multiple example UIs (contact form, profile, todo list)
+- Sample UIs: Contact Form, User Profile, Todo List
+
+**Options:**
+- `simple-server.js` - Standalone server with zero dependencies
+- `mock-server/server.js` - Express-based server with more features
 
 ### Client Implementation
 
-The iOS client:
-- Parses A2UI JSON messages
-- Renders native SwiftUI components
-- Handles data binding with JSON Pointer resolution
-- Sends user actions back to the server
-- Supports dynamic list rendering
+The iOS client uses a **modern Swift Package architecture**:
+
+**A2UIExamplePackage Module**:
+- A2UI protocol implementation
+
+**App Shell** (`A2UIExample/`):
+- Minimal wrapper that imports and launches the package
+- Entry point and basic navigation
+- Asset management
+
+Key Features:
+- **JSON Pointer binding**: Components bind to data models via path references
+- **Progressive rendering**: Components stream and render incrementally
+- **Type-safe**: Swift's type system ensures component validity
+- **Platform-native**: Renders native SwiftUI controls
+- **Modular**: Clean separation of concerns across packages
 
 ## Testing
 

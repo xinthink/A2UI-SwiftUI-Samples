@@ -23,17 +23,23 @@ const samplePayloads: Record<string, A2UIMessage[]> = {
 // API Routes
 app.get('/api/form', (req, res) => {
   console.log('Sending contact form A2UI payload');
-  res.json(samplePayloads.contactForm);
+  res.setHeader('Content-Type', 'application/x-ndjson');
+  const ndjson = samplePayloads.contactForm.map(msg => JSON.stringify(msg)).join('\n');
+  res.send(ndjson);
 });
 
 app.get('/api/profile', (req, res) => {
   console.log('Sending user profile A2UI payload');
-  res.json(samplePayloads.userProfile);
+  res.setHeader('Content-Type', 'application/x-ndjson');
+  const ndjson = samplePayloads.userProfile.map(msg => JSON.stringify(msg)).join('\n');
+  res.send(ndjson);
 });
 
 app.get('/api/todos', (req, res) => {
   console.log('Sending todo list A2UI payload');
-  res.json(samplePayloads.todoList);
+  res.setHeader('Content-Type', 'application/x-ndjson');
+  const ndjson = samplePayloads.todoList.map(msg => JSON.stringify(msg)).join('\n');
+  res.send(ndjson);
 });
 
 // Endpoint to receive user actions

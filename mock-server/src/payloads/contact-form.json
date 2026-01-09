@@ -11,62 +11,98 @@
       "components": [
         {
           "id": "root",
-          "component": "Column",
-          "children": {"explicitList": ["title", "form_fields", "submit_button"]},
-          "alignment": "stretch",
-          "distribution": "start"
+          "weight": 1.0,
+          "component": {
+            "Column": {
+              "children": {"explicitList": ["title", "form_fields", "submit_button"]},
+              "alignment": "stretch",
+              "distribution": "start"
+            }
+          }
         },
         {
           "id": "title",
-          "component": "Text",
-          "text": {"literalString": "Contact Us"},
-          "alignment": "center"
+          "weight": 1.0,
+          "component": {
+            "Text": {
+              "text": {"literalString": "Contact Us"},
+              "alignment": "center"
+            }
+          }
         },
         {
           "id": "form_fields",
-          "component": "Column",
-          "children": {"explicitList": ["first_name_field", "last_name_field", "email_field", "message_field"]},
-          "alignment": "stretch",
-          "distribution": "start"
+          "weight": 1.0,
+          "component": {
+            "Column": {
+              "children": {"explicitList": ["first_name_field", "last_name_field", "email_field", "message_field"]},
+              "alignment": "stretch",
+              "distribution": "start"
+            }
+          }
         },
         {
           "id": "first_name_field",
-          "component": "TextField",
-          "label": {"literalString": "First Name *"},
-          "value": {"path": "/form/firstName"},
-          "variant": "shortText"
+          "weight": 1.0,
+          "component": {
+            "TextField": {
+              "label": {"literalString": "First Name *"},
+              "text": {"path": "/form/firstName"},
+              "textFieldType": "shortText"
+            }
+          }
         },
         {
           "id": "last_name_field",
-          "component": "TextField",
-          "label": {"literalString": "Last Name *"},
-          "value": {"path": "/form/lastName"},
-          "variant": "shortText"
+          "weight": 1.0,
+          "component": {
+            "TextField": {
+              "label": {"literalString": "Last Name *"},
+              "text": {"path": "/form/lastName"},
+              "textFieldType": "shortText"
+            }
+          }
         },
         {
           "id": "email_field",
-          "component": "TextField",
-          "label": {"literalString": "Email *"},
-          "value": {"path": "/form/email"},
-          "variant": "shortText"
+          "weight": 1.0,
+          "component": {
+            "TextField": {
+              "label": {"literalString": "Email *"},
+              "text": {"path": "/form/email"},
+              "textFieldType": "shortText"
+            }
+          }
         },
         {
           "id": "message_field",
-          "component": "TextField",
-          "label": {"literalString": "Message"},
-          "value": {"path": "/form/message"},
-          "variant": "longText"
+          "weight": 1.0,
+          "component": {
+            "TextField": {
+              "label": {"literalString": "Message"},
+              "text": {"path": "/form/message"},
+              "textFieldType": "longText"
+            }
+          }
         },
         {
           "id": "submit_button",
-          "component": "Button",
-          "child": "button_text",
-          "action": {"name": "submitContactForm"}
+          "weight": 1.0,
+          "component": {
+            "Button": {
+              "child": "button_text",
+              "action": {"name": "submitContactForm"}
+            }
+          }
         },
         {
           "id": "button_text",
-          "component": "Text",
-          "text": {"literalString": "Send Message"}
+          "weight": 1.0,
+          "component": {
+            "Text": {
+              "text": {"literalString": "Send Message"}
+            }
+          }
         }
       ]
     }
