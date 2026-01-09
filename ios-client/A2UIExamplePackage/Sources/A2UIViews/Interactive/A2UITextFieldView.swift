@@ -25,10 +25,9 @@ internal struct A2UITextFieldView: View {
         self.props = props
 
         // Initialize state
-        let resolver = DataBindingResolver()
-        let dataModel = SurfaceManager().getDataModel(in: surfaceId)
-        let initialValue = props.text != nil ? resolver.resolve(props.text!, in: dataModel) : ""
-        _text = State(initialValue: initialValue)
+        // Note: We cannot access @Environment in init, so we initialize with empty value
+        // The body will update when the environment is available
+        _text = State(initialValue: "")
     }
 
     var body: some View {
@@ -37,6 +36,9 @@ internal struct A2UITextFieldView: View {
         let variant = props.textFieldType ?? "shortText"
 
         let isMultiline = variant == "longText"
+
+        // Initialize text from data model on first appearance
+        let resolvedValue = props.text.map { resolver.resolve($0, in: dataModel) } ?? ""
 
         Group {
             if isMultiline {
@@ -47,6 +49,12 @@ internal struct A2UITextFieldView: View {
                 TextField(label, text: $text)
                     .focused($isFocused)
                     .textFieldStyle(.roundedBorder)
+            }
+        }
+        .onAppear {
+            // Set initial value from data model
+            if text.isEmpty && !resolvedValue.isEmpty {
+                text = resolvedValue
             }
         }
         .onChange(of: text) { oldValue, newValue in

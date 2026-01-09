@@ -23,19 +23,25 @@ internal struct A2UICheckboxView: View {
         self.componentId = componentId
         self.props = props
 
-        // Initialize the state
-        let resolver = DataBindingResolver()
-        let dataModel = SurfaceManager().getDataModel(in: surfaceId)
-        let initialValue = props.value != nil ? resolver.resolve(props.value!, in: dataModel) : false
-        _isChecked = State(initialValue: initialValue)
+        // Initialize state
+        // Note: We cannot access @Environment in init, so we initialize with default value
+        // The body will update when the environment is available
+        _isChecked = State(initialValue: false)
     }
 
     var body: some View {
         let dataModel = state.surfaceManager.getDataModel(in: surfaceId)
         let label = DataBindingResolver().resolve(props.label, in: dataModel)
 
+        // Initialize value from data model on first appearance
+        let resolvedValue = props.value.map { DataBindingResolver().resolve($0, in: dataModel) } ?? false
+
         Toggle(label, isOn: $isChecked)
             .focused($isFocused)
+            .onAppear {
+                // Set initial value from data model
+                isChecked = resolvedValue
+            }
             .onChange(of: isChecked) { oldValue, newValue in
                 updateDataModel(newValue)
             }
