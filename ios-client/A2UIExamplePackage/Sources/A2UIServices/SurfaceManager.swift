@@ -8,6 +8,7 @@ import Foundation
 import A2UICore
 
 @MainActor
+@Observable
 public final class SurfaceManager: Sendable {
 
     // MARK: - Surface State

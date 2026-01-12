@@ -19,7 +19,7 @@ internal struct A2UIColumnView: View {
     @State private var resolver = DataBindingResolver()
 
     var body: some View {
-        let childIds = state.surfaceManager.resolveChildren(
+        let childIds = state.resolveChildren(
             props.children,
             in: surfaceId,
             with: resolver
@@ -42,7 +42,7 @@ internal struct A2UIColumnView: View {
     }
 
     private func getWeight(for componentId: String) -> Double? {
-        return state.surfaceManager.getComponent(id: componentId, in: surfaceId)?.weight
+        return state.getComponent(id: componentId, in: surfaceId)?.weight
     }
 
     private func resolveAlignment(_ alignment: String?) -> HorizontalAlignment {

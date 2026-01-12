@@ -24,6 +24,9 @@ public struct A2UIRenderer: View {
     }
 
     public var body: some View {
+        // Access revision to trigger observation
+        let _ = state.revision
+
         if let componentWrapper = getComponent(id: componentId) {
             A2UIComponentView(
                 surfaceId: surfaceId,
@@ -37,7 +40,7 @@ public struct A2UIRenderer: View {
     }
 
     private func getComponent(id: String) -> ComponentWrapper? {
-        return state.surfaceManager.getComponent(id: id, in: surfaceId)
+        return state.getComponent(id: id, in: surfaceId)
     }
 }
 

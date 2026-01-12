@@ -16,7 +16,7 @@ internal struct A2UIImageView: View {
     let props: ImageProperties
 
     var body: some View {
-        let dataModel = state.surfaceManager.getDataModel(in: surfaceId)
+        let dataModel = state.getDataModel(in: surfaceId)
         let urlString = resolver.resolve(props.url, in: dataModel)
 
         if let url = URL(string: urlString) {

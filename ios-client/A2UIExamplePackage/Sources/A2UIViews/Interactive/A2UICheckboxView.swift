@@ -30,7 +30,7 @@ internal struct A2UICheckboxView: View {
     }
 
     var body: some View {
-        let dataModel = state.surfaceManager.getDataModel(in: surfaceId)
+        let dataModel = state.getDataModel(in: surfaceId)
         let label = DataBindingResolver().resolve(props.label, in: dataModel)
 
         // Initialize value from data model on first appearance
@@ -51,7 +51,7 @@ internal struct A2UICheckboxView: View {
         guard let valueBinding = props.value else { return }
 
         if case .path(let path) = valueBinding {
-            state.surfaceManager.updateDataModel(
+            state.updateDataModel(
                 path: path,
                 value: .bool(newValue),
                 in: surfaceId

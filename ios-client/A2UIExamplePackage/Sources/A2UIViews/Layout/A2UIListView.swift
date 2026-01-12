@@ -19,7 +19,7 @@ internal struct A2UIListView: View {
     @State private var resolver = DataBindingResolver()
 
     var body: some View {
-        let childIds = state.surfaceManager.resolveChildren(
+        let childIds = state.resolveChildren(
             props.children,
             in: surfaceId,
             with: resolver

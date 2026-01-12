@@ -35,7 +35,7 @@ internal struct A2UIButtonView: View {
 
     private func handleAction() async {
         let action = props.action
-        let dataModel = state.surfaceManager.getDataModel(in: surfaceId)
+        let dataModel = state.getDataModel(in: surfaceId)
 
         // Resolve action context with current data model
         var resolvedContext: [String: JSONValue] = [:]

@@ -32,17 +32,14 @@ struct A2UIExampleApp: App {
             print("Receive message: \(message)")
             switch message {
             case .createSurface(let msg):
-                state.surfaceManager.createSurface(id: msg.surfaceId)
+                state.createSurface(id: msg.surfaceId)
                 state.currentSurfaceId = msg.surfaceId
             case .updateComponents(let msg):
-                state.surfaceManager.updateComponents(msg.components, in: msg.surfaceId)
+                state.updateComponents(msg.components, in: msg.surfaceId)
             case .updateDataModel(let msg):
-                state.surfaceManager.updateDataModel(path: msg.path, value: msg.value, in: msg.surfaceId)
+                state.updateDataModel(path: msg.path, value: msg.value, in: msg.surfaceId)
             case .deleteSurface(let msg):
-                state.surfaceManager.deleteSurface(id: msg.surfaceId)
-                if state.currentSurfaceId == msg.surfaceId {
-                    state.currentSurfaceId = nil
-                }
+                state.deleteSurface(id: msg.surfaceId)
             }
         }
     }

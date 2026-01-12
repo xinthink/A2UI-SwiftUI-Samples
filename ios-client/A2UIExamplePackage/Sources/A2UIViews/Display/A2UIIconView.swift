@@ -15,7 +15,7 @@ internal struct A2UIIconView: View {
     let props: IconProperties
 
     var body: some View {
-        let dataModel = state.surfaceManager.getDataModel(in: surfaceId)
+        let dataModel = state.getDataModel(in: surfaceId)
         let iconName = DataBindingResolver().resolve(props.name, in: dataModel)
         let sfSymbolName = convertToSFSymbol(iconName)
 
@@ -33,6 +33,8 @@ internal struct A2UIIconView: View {
             return "checkmark.circle.fill"
         case "email":
             return "envelope.fill"
+        case "phone":
+            return "phone.fill"
         case "person":
             return "person.fill"
         case "home":

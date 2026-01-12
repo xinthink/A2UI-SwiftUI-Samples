@@ -16,7 +16,7 @@ internal struct A2UITextView: View {
     let props: TextProperties
 
     var body: some View {
-        let dataModel = state.surfaceManager.getDataModel(in: surfaceId)
+        let dataModel = state.getDataModel(in: surfaceId)
         let text = resolver.resolve(props.text, in: dataModel)
         let alignment = resolveAlignment(props.alignment)
 

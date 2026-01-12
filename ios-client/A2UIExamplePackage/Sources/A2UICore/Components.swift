@@ -228,6 +228,10 @@ public struct CardProperties: Codable, Sendable, Equatable {
     public init(child: String) {
         self.child = child
     }
+
+    private enum CodingKeys: String, CodingKey {
+        case child = "contentChild"
+    }
 }
 
 public struct ModalProperties: Codable, Sendable, Equatable {

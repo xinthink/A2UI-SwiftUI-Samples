@@ -18,7 +18,7 @@ internal struct A2UITabsView: View {
     let client: A2UIClient
 
     var body: some View {
-        let dataModel = state.surfaceManager.getDataModel(in: surfaceId)
+        let dataModel = state.getDataModel(in: surfaceId)
         let firstTab = props.tabItems.first?.child
         let selected = selection ?? firstTab
 

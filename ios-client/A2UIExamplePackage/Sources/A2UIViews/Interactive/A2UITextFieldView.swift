@@ -31,7 +31,7 @@ internal struct A2UITextFieldView: View {
     }
 
     var body: some View {
-        let dataModel = state.surfaceManager.getDataModel(in: surfaceId)
+        let dataModel = state.getDataModel(in: surfaceId)
         let label = resolver.resolve(props.label, in: dataModel)
         let variant = props.textFieldType ?? "shortText"
 
@@ -67,7 +67,7 @@ internal struct A2UITextFieldView: View {
         guard let textPath = props.text else { return }
 
         if case .path(let path) = textPath {
-            state.surfaceManager.updateDataModel(
+            state.updateDataModel(
                 path: path,
                 value: .string(newValue),
                 in: surfaceId

@@ -36,13 +36,6 @@ struct A2UIMainView: View {
                     NavigationLink("User Profile", value: "profile")
                     NavigationLink("Todo List", value: "todos")
                 }
-
-                if let surfaceId = state.currentSurfaceId {
-                    Section("Current Surface: \(surfaceId)") {
-                        A2UIRenderer(surfaceId: surfaceId, componentId: nil, client: client)
-                            .frame(minHeight: 400)
-                    }
-                }
             }
             .navigationTitle("A2UI Examples")
             .navigationDestination(for: String.self) { example in
