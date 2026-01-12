@@ -31,6 +31,8 @@ internal struct A2UIIconView: View {
         switch name {
         case "check_circle", "check-circle":
             return "checkmark.circle.fill"
+        case "radio_button_unchecked":
+            return "circle"
         case "email":
             return "envelope.fill"
         case "phone":
