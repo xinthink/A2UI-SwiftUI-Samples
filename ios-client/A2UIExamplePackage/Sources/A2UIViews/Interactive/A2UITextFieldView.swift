@@ -15,14 +15,15 @@ internal struct A2UITextFieldView: View {
     let surfaceId: String
     let componentId: String
     let props: TextFieldProperties
+    let contextPath: String?
 
     @State private var text: String
-    @State private var resolver = DataBindingResolver()
 
-    init(surfaceId: String, componentId: String, props: TextFieldProperties) {
+    init(surfaceId: String, componentId: String, props: TextFieldProperties, contextPath: String? = nil) {
         self.surfaceId = surfaceId
         self.componentId = componentId
         self.props = props
+        self.contextPath = contextPath
 
         // Initialize state
         // Note: We cannot access @Environment in init, so we initialize with empty value
@@ -31,6 +32,7 @@ internal struct A2UITextFieldView: View {
     }
 
     var body: some View {
+        let resolver = DataBindingResolver()
         let dataModel = state.getDataModel(in: surfaceId)
         let label = resolver.resolve(props.label, in: dataModel)
         let variant = props.textFieldType ?? "shortText"

@@ -15,17 +15,28 @@ internal struct A2UIModalView: View {
     let componentId: String
     let props: ModalProperties
     let client: A2UIClient
+    let contextPath: String?
 
     var body: some View {
         VStack {
-            A2UIRenderer(surfaceId: surfaceId, componentId: props.entryPointChild, client: client)
-                .onTapGesture {
-                    isPresented = true
-                }
+            A2UIRenderer(
+                surfaceId: surfaceId,
+                componentId: props.entryPointChild,
+                client: client,
+                contextPath: contextPath
+            )
+            .onTapGesture {
+                isPresented = true
+            }
         }
         .sheet(isPresented: $isPresented) {
-            A2UIRenderer(surfaceId: surfaceId, componentId: props.contentChild, client: client)
-                .padding()
+            A2UIRenderer(
+                surfaceId: surfaceId,
+                componentId: props.contentChild,
+                client: client,
+                contextPath: contextPath
+            )
+            .padding()
         }
     }
 }

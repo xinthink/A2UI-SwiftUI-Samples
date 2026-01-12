@@ -10,12 +10,13 @@ import A2UIServices
 
 internal struct A2UIImageView: View {
     @Environment(A2UIState.self) private var state
-    private let resolver = DataBindingResolver()
 
     let surfaceId: String
     let props: ImageProperties
+    let contextPath: String?
 
     var body: some View {
+        let resolver = DataBindingResolver()
         let dataModel = state.getDataModel(in: surfaceId)
         let urlString = resolver.resolve(props.url, in: dataModel)
 

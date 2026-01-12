@@ -13,11 +13,17 @@ internal struct A2UICardView: View {
     let componentId: String
     let props: CardProperties
     let client: A2UIClient
+    let contextPath: String?
 
     var body: some View {
-        A2UIRenderer(surfaceId: surfaceId, componentId: props.child, client: client)
-            .padding()
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(12)
+        A2UIRenderer(
+            surfaceId: surfaceId,
+            componentId: props.child,
+            client: client,
+            contextPath: contextPath
+        )
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(12)
     }
 }

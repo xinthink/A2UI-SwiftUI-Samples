@@ -13,16 +13,44 @@ internal struct A2UIIconView: View {
 
     let surfaceId: String
     let props: IconProperties
+    let contextPath: String?
 
     var body: some View {
-        let dataModel = state.getDataModel(in: surfaceId)
-        let iconName = DataBindingResolver().resolve(props.name, in: dataModel)
+        let iconName = getIconName()
         let sfSymbolName = convertToSFSymbol(iconName)
 
         Image(systemName: sfSymbolName)
             .resizable()
             .scaledToFit()
             .frame(width: 24, height: 24)
+    }
+
+    private func getIconName() -> String {
+        let resolver = DataBindingResolver()
+        let dataModel = state.getDataModel(in: surfaceId)
+
+        switch props.name {
+        case .literalString(let value):
+            return value
+        case .path(let path):
+            let fullPath = resolvePathWithContext(path)
+            if let value = resolver.resolve(path: fullPath, in: dataModel) {
+                return value.stringValue ?? ""
+            }
+            return ""
+        }
+    }
+
+    private func resolvePathWithContext(_ path: String) -> String {
+        if path.hasPrefix("/") {
+            return path
+        }
+
+        if let contextPath = contextPath {
+            return "\(contextPath)/\(path)"
+        }
+
+        return "/\(path)"
     }
 
     /// Convert common icon names to SF Symbols

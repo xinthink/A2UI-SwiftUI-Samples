@@ -15,13 +15,15 @@ internal struct A2UICheckboxView: View {
     let surfaceId: String
     let componentId: String
     let props: CheckboxProperties
+    let contextPath: String?
 
     @State private var isChecked: Bool
 
-    init(surfaceId: String, componentId: String, props: CheckboxProperties) {
+    init(surfaceId: String, componentId: String, props: CheckboxProperties, contextPath: String? = nil) {
         self.surfaceId = surfaceId
         self.componentId = componentId
         self.props = props
+        self.contextPath = contextPath
 
         // Initialize state
         // Note: We cannot access @Environment in init, so we initialize with default value

@@ -15,10 +15,10 @@ internal struct A2UIRowView: View {
     let componentId: String
     let props: RowProperties
     let client: A2UIClient
-
-    @State private var resolver = DataBindingResolver()
+    let contextPath: String?
 
     var body: some View {
+        let resolver = DataBindingResolver()
         let childIds = state.resolveChildren(
             props.children,
             in: surfaceId,
@@ -34,7 +34,8 @@ internal struct A2UIRowView: View {
                     surfaceId: surfaceId,
                     childId: childId,
                     weight: weight,
-                    client: client
+                    client: client,
+                    contextPath: contextPath
                 )
             }
         }

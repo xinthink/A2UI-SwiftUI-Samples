@@ -16,6 +16,7 @@ internal struct A2UITabsView: View {
     let componentId: String
     let props: TabsProperties
     let client: A2UIClient
+    let contextPath: String?
 
     var body: some View {
         let dataModel = state.getDataModel(in: surfaceId)
@@ -24,12 +25,17 @@ internal struct A2UITabsView: View {
 
         TabView(selection: $selection) {
             ForEach(props.tabItems, id: \.child) { tab in
-                A2UIRenderer(surfaceId: surfaceId, componentId: tab.child, client: client)
-                    .tabItem {
-                        let title = DataBindingResolver().resolve(tab.title, in: dataModel)
-                        Text(title)
-                    }
-                    .tag(tab.child as String?)
+                A2UIRenderer(
+                    surfaceId: surfaceId,
+                    componentId: tab.child,
+                    client: client,
+                    contextPath: contextPath
+                )
+                .tabItem {
+                    let title = DataBindingResolver().resolve(tab.title, in: dataModel)
+                    Text(title)
+                }
+                .tag(tab.child as String?)
             }
         }
     }

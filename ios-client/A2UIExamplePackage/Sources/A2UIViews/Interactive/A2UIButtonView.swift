@@ -11,12 +11,11 @@ import A2UIServices
 internal struct A2UIButtonView: View {
     @Environment(A2UIState.self) private var state
 
-    private let resolver = DataBindingResolver()
-
     let surfaceId: String
     let componentId: String
     let props: ButtonProperties
     let client: A2UIClient
+    let contextPath: String?
 
     var body: some View {
         let isPrimary = props.primary ?? false
@@ -26,9 +25,14 @@ internal struct A2UIButtonView: View {
                 await handleAction()
             }
         }) {
-            A2UIRenderer(surfaceId: surfaceId, componentId: props.child, client: client)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+            A2UIRenderer(
+                surfaceId: surfaceId,
+                componentId: props.child,
+                client: client,
+                contextPath: contextPath
+            )
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
         }
         .buttonStyle(A2UIButtonStyle(primary: isPrimary))
     }
@@ -36,13 +40,20 @@ internal struct A2UIButtonView: View {
     private func handleAction() async {
         let action = props.action
         let dataModel = state.getDataModel(in: surfaceId)
+        let resolver = DataBindingResolver()
 
         // Resolve action context with current data model
         var resolvedContext: [String: JSONValue] = [:]
         if let context = action.context {
             for (key, value) in context {
-                let resolvedValue = resolver.resolve(value, in: dataModel, with: nil)
-                resolvedContext[key] = .string(resolvedValue)
+                let fullPath = resolvePathWithContext(value)
+                if let jsonValue = resolver.resolve(path: fullPath, in: dataModel) {
+                    resolvedContext[key] = jsonValue
+                } else {
+                    // Fallback to resolving as DynamicString
+                    let stringValue = resolveString(value, dataModel: dataModel)
+                    resolvedContext[key] = .string(stringValue)
+                }
             }
         }
 
@@ -56,6 +67,35 @@ internal struct A2UIButtonView: View {
             try await client.sendAction(clientAction)
         } catch {
             state.errorMessage = "Failed to send action: \(error.localizedDescription)"
+        }
+    }
+
+    private func resolvePathWithContext(_ dynamicString: DynamicString) -> String {
+        switch dynamicString {
+        case .literalString:
+            return "" // Not a path
+        case .path(let path):
+            if path.hasPrefix("/") {
+                return path
+            }
+            if let contextPath = contextPath {
+                return "\(contextPath)/\(path)"
+            }
+            return "/\(path)"
+        }
+    }
+
+    private func resolveString(_ dynamicString: DynamicString, dataModel: [String: JSONValue]) -> String {
+        switch dynamicString {
+        case .literalString(let value):
+            return value
+        case .path(let path):
+            let fullPath = resolvePathWithContext(dynamicString)
+            let resolver = DataBindingResolver()
+            if let value = resolver.resolve(path: fullPath, in: dataModel) {
+                return value.stringValue ?? ""
+            }
+            return ""
         }
     }
 }
