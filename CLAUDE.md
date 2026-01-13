@@ -223,4 +223,4 @@ The renderer follows these patterns:
 - **Public API** - Mark types as `public` for cross-module access
 - **No CoreData** - Use SwiftData if persistence needed (rarely)
 - **Accessibility** - Always provide labels and identifiers
-- **Tool Usage** - Always use `describe_ui` for visual validation instead of `screenshot`
+- **Tool Usage** - Prefer `describe_ui` for visual validation; use `screenshot` only for pixel-accurate analysis.
