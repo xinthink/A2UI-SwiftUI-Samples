@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { A2UIMessage, UserAction } from './types/a2ui';
+import { ClientAction } from './types/a2ui';
 import contactForm from './payloads/contact-form.json';
 import userProfile from './payloads/user-profile.json';
 import todoList from './payloads/todo-list.json';
@@ -14,7 +14,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Sample A2UI payloads loaded from JSON files
-const samplePayloads: Record<string, A2UIMessage[]> = {
+// Type as any[] to bypass strict typing - we validate at runtime
+const samplePayloads: Record<string, any[]> = {
   contactForm,
   userProfile,
   todoList
@@ -44,15 +45,29 @@ app.get('/api/todos', (req, res) => {
 
 // Endpoint to receive user actions
 app.post('/api/action', (req, res) => {
-  const action: UserAction = req.body;
-  console.log('Received user action:', JSON.stringify(action, null, 2));
+  const clientAction: ClientAction = req.body;
 
-  // Echo back the action with a success response
-  res.json({
-    success: true,
-    message: `Action "${action.action}" received for surface "${action.surfaceId}"`,
-    receivedContext: action.context
-  });
+  // Handle v0.9 action format
+  if (clientAction.version === 'v0.9' && clientAction.action) {
+    const { surfaceId, event } = clientAction.action;
+    console.log('Received user action:', JSON.stringify(clientAction, null, 2));
+
+    // Echo back the action with a success response
+    res.json({
+      version: 'v0.9',
+      success: true,
+      message: `Action "${event.name}" received for surface "${surfaceId}"`,
+      receivedContext: event.context
+    });
+  } else {
+    // Handle legacy format for backward compatibility
+    console.log('Received legacy action:', JSON.stringify(req.body, null, 2));
+    res.json({
+      success: true,
+      message: 'Action received (legacy format)',
+      receivedData: req.body
+    });
+  }
 });
 
 // Health check endpoint
