@@ -1,4 +1,12 @@
+// A2UI v0.9 Protocol Type Definitions
+// Based on https://a2ui.org/specification/v0_9/
+
+// ============================================================================
+// MESSAGE TYPES
+// ============================================================================
+
 export interface A2UIMessage {
+  version: string;
   createSurface?: CreateSurfaceMessage;
   updateComponents?: UpdateComponentsMessage;
   updateDataModel?: UpdateDataModelMessage;
@@ -7,7 +15,9 @@ export interface A2UIMessage {
 
 export interface CreateSurfaceMessage {
   surfaceId: string;
-  catalogId?: string;
+  catalogId: string;
+  theme?: Record<string, any>;
+  sendDataModel?: boolean;
 }
 
 export interface UpdateComponentsMessage {
@@ -25,181 +35,231 @@ export interface DeleteSurfaceMessage {
   surfaceId: string;
 }
 
-// Component-specific property interfaces
-export interface ColumnProps {
-  children: ChildList;
-  alignment?: string;
-  distribution?: string;
+// ============================================================================
+// COMPONENT TYPES
+// ============================================================================
+
+// Base component properties
+interface ComponentBase {
+  id: string;
+  weight?: number;
+  accessibility?: AccessibilityAttributes;
 }
 
+// Discriminator-based component type union
+export type Component =
+  // Layout Components
+  | (ComponentBase & { component: "Row" } & RowProps)
+  | (ComponentBase & { component: "Column" } & ColumnProps)
+  | (ComponentBase & { component: "List" } & ListProps)
+  // Display Components
+  | (ComponentBase & { component: "Text" } & TextProps)
+  | (ComponentBase & { component: "Image" } & ImageProps)
+  | (ComponentBase & { component: "Icon" } & IconProps)
+  | (ComponentBase & { component: "Video" } & VideoProps)
+  | (ComponentBase & { component: "AudioPlayer" } & AudioPlayerProps)
+  | (ComponentBase & { component: "Divider" } & DividerProps)
+  // Interactive Components
+  | (ComponentBase & { component: "Button" } & ButtonProps)
+  | (ComponentBase & { component: "TextField" } & TextFieldProps)
+  | (ComponentBase & { component: "CheckBox" } & CheckBoxProps)
+  | (ComponentBase & { component: "ChoicePicker" } & ChoicePickerProps)
+  | (ComponentBase & { component: "Slider" } & SliderProps)
+  // Container Components
+  | (ComponentBase & { component: "Card" } & CardProps)
+  | (ComponentBase & { component: "Tabs" } & TabsProps)
+  | (ComponentBase & { component: "Modal" } & ModalProps);
+
+// ============================================================================
+// COMPONENT PROPERTIES
+// ============================================================================
+
+// Layout Components
 export interface RowProps {
-  children: ChildList;
-  alignment?: string;
-  distribution?: string;
+  children: string[] | TemplateDefinition;
+  justify?: "start" | "center" | "end" | "spaceBetween" | "spaceAround" | "spaceEvenly" | "stretch";
+  align?: "start" | "center" | "end" | "stretch";
 }
 
+export interface ColumnProps {
+  children: string[] | TemplateDefinition;
+  justify?: "start" | "center" | "end" | "spaceBetween" | "spaceAround" | "spaceEvenly" | "stretch";
+  align?: "start" | "center" | "end" | "stretch";
+}
+
+export interface ListProps {
+  children: string[] | TemplateDefinition;
+  direction?: "vertical" | "horizontal";
+  align?: "start" | "center" | "end" | "stretch";
+}
+
+// Display Components
 export interface TextProps {
   text: DynamicString;
-  alignment?: string;
-  usageHint?: string;
-}
-
-export interface TextFieldProps {
-  label?: DynamicString;
-  text?: DynamicString;
-  textFieldType?: string;
-}
-
-export interface ButtonProps {
-  child: string;
-  action?: ActionDefinition;
-  primary?: boolean;
+  align?: "start" | "center" | "end";
+  variant?: "h1" | "h2" | "h3" | "h4" | "h5" | "caption" | "body";
 }
 
 export interface ImageProps {
   url: DynamicString;
-  alt?: DynamicString;
-  width?: number;
-  height?: number;
+  fit?: "contain" | "cover" | "fill" | "none" | "scale-down";
+  variant?: "icon" | "avatar" | "smallFeature" | "mediumFeature" | "largeFeature" | "header";
 }
 
 export interface IconProps {
   name: DynamicString;
-  size?: number;
+}
+
+export interface VideoProps {
+  url: DynamicString;
+}
+
+export interface AudioPlayerProps {
+  url: DynamicString;
+  description?: DynamicString;
 }
 
 export interface DividerProps {
-  axis?: string;
+  axis?: "horizontal" | "vertical";
 }
 
-export interface CardProps {
+// Interactive Components
+export interface ButtonProps {
   child: string;
-  header?: string;
-  footer?: string;
+  action: ActionDefinition;
+  variant?: "primary" | "borderless";
+  enabled?: DynamicBoolean;
+  checks?: CheckRule[];
 }
 
-export interface ListProps {
-  children: ChildList;
-}
-
-export interface CheckboxProps {
+export interface TextFieldProps {
   label: DynamicString;
-  value: DynamicValue;
+  value?: DynamicString;
+  variant?: "shortText" | "longText" | "number" | "obscured";
+  enabled?: DynamicBoolean;
+  checks?: CheckRule[];
 }
 
-export interface ModalProps {
-  entryPointChild: string;
-  contentChild: string;
+export interface CheckBoxProps {
+  label: DynamicString;
+  value: DynamicBoolean;
+  enabled?: DynamicBoolean;
+  checks?: CheckRule[];
+}
+
+export interface ChoicePickerProps {
+  label: DynamicString;
+  value?: DynamicStringList;
+  variant?: "multipleSelection" | "mutuallyExclusive";
+  options: ChoiceOption[];
+  enabled?: DynamicBoolean;
+  checks?: CheckRule[];
+}
+
+export interface ChoiceOption {
+  label: DynamicString;
+  value: string;
+}
+
+export interface SliderProps {
+  value: DynamicNumber;
+  min?: number;
+  max?: number;
+  step?: number;
+  enabled?: DynamicBoolean;
+}
+
+// Container Components
+export interface CardProps {
+  content: string;
 }
 
 export interface TabsProps {
-  tabItems: Array<{
-    title: DynamicString;
-    child: string;
-  }>;
+  tabs: TabItem[];
 }
 
-// Union type for all component definitions
-export type ComponentDefinition =
-  | { Column: ColumnProps }
-  | { Row: RowProps }
-  | { Text: TextProps }
-  | { TextField: TextFieldProps }
-  | { Button: ButtonProps }
-  | { Image: ImageProps }
-  | { Icon: IconProps }
-  | { Divider: DividerProps }
-  | { Card: CardProps }
-  | { List: ListProps }
-  | { Checkbox: CheckboxProps }
-  | { Modal: ModalProps }
-  | { Tabs: TabsProps };
+export interface TabItem {
+  title: DynamicString;
+  child: string;
+}
 
-// Main Component interface
-// Supports both formats:
-// 1. Simple string: "component": "Column"
-// 2. Nested object: "component": { "Column": {...} }
-export interface Component {
-  id: string;
-  weight?: number;
-  component: string | ComponentDefinition;
+export interface ModalProps {
+  trigger: string;
+  content: string;
+}
 
-  // Legacy properties for simple string format (backward compatibility)
-  children?: ChildList;
-  alignment?: string;
-  distribution?: string;
-  text?: DynamicString;
+// ============================================================================
+// COMMON TYPES
+// ============================================================================
+
+export interface AccessibilityAttributes {
   label?: DynamicString;
-  value?: DynamicValue;
-  textFieldType?: string;
-  child?: string;
-  action?: ActionDefinition;
-  url?: DynamicString;
-  name?: DynamicString;
-  contentChild?: string;
-  header?: string;
-  footer?: string;
-  usageHint?: string;
-  primary?: boolean;
-  alt?: DynamicString;
-  width?: number;
-  height?: number;
-  size?: number;
-  axis?: string;
-  entryPointChild?: string;
-  tabItems?: Array<{
-    title: DynamicString;
-    child: string;
-  }>;
+  description?: DynamicString;
 }
 
-// ChildList can be in multiple formats:
-// 1. Simple array: ["child1", "child2"]
-// 2. Wrapped array: { "explicitList": ["child1", "child2"] }
-// 3. Template object: { "template": { componentId: "...", dataBinding: "..." } }
-export type ChildList =
-  | string[]
-  | { explicitList: string[] }
-  | { template: TemplateDefinition };
-
+// Template definition for dynamic children
 export interface TemplateDefinition {
   componentId: string;
-  dataBinding: DynamicValue | string;
+  path: string;
 }
 
+// Dynamic value types
+export type DynamicString = string | { path: string };
+export type DynamicNumber = number | { path: string };
+export type DynamicBoolean = boolean | { path: string } | LogicExpression;
+export type DynamicStringList = string[] | { path: string };
 export type DynamicValue = DynamicString | DynamicNumber | DynamicBoolean | DynamicStringList;
 
-export interface DynamicString {
-  literalString?: string;
-  path?: string;
+// Logic expression for conditional logic
+export type LogicExpression =
+  | { and: LogicExpression[] }
+  | { or: LogicExpression[] }
+  | { not: LogicExpression }
+  | FunctionCall
+  | { true: true }
+  | { false: false };
+
+// Function call
+export interface FunctionCall {
+  call: string;
+  args?: Record<string, DynamicValue | object>;
+  returnType?: "string" | "number" | "boolean" | "array" | "object" | "any" | "void";
 }
 
-export interface DynamicNumber {
-  literalNumber?: number;
-  path?: string;
-}
+// Check rule for validation
+export type CheckRule = LogicExpression & { message: string };
 
-export interface DynamicBoolean {
-  literalBoolean?: boolean;
-  path?: string;
-}
-
-export interface DynamicStringList {
-  literalStringList?: string[];
-  path?: string;
-}
-
+// Action definition
 export interface ActionDefinition {
-  name: string;
-  context?: Record<string, DynamicValue | undefined>;
+  event: {
+    name: string;
+    context?: Record<string, DynamicValue>;
+  } | {
+    functionCall: FunctionCall;
+  };
 }
 
-export interface UserAction {
-  action: string;
-  surfaceId: string;
-  context?: Record<string, any>;
+// ============================================================================
+// CLIENT TO SERVER TYPES
+// ============================================================================
+
+export interface ClientAction {
+  version: string;
+  action: {
+    surfaceId: string;
+    event: {
+      name: string;
+      context?: Record<string, any>;
+    };
+  };
 }
 
-export interface DataModel {
-  [key: string]: any;
+export interface ClientError {
+  version: string;
+  error: {
+    code: "VALIDATION_FAILED";
+    surfaceId: string;
+    path: string;
+    message: string;
+  };
 }

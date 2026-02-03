@@ -1,113 +1,84 @@
 [
   {
+    "version": "v0.9",
     "createSurface": {
       "surfaceId": "contact_form",
       "catalogId": "https://a2ui.dev/specification/0.9/standard_catalog_definition.json"
     }
   },
   {
+    "version": "v0.9",
     "updateComponents": {
       "surfaceId": "contact_form",
       "components": [
         {
           "id": "root",
-          "weight": 1.0,
-          "component": {
-            "Column": {
-              "children": {"explicitList": ["title", "form_fields", "submit_button"]},
-              "alignment": "stretch",
-              "distribution": "start"
-            }
-          }
+          "component": "Column",
+          "children": ["title", "form_fields", "submit_button"],
+          "justify": "start",
+          "align": "stretch"
         },
         {
           "id": "title",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"literalString": "Contact Us"},
-              "alignment": "center"
-            }
-          }
+          "component": "Text",
+          "text": "Contact Us",
+          "align": "center"
         },
         {
           "id": "form_fields",
-          "weight": 1.0,
-          "component": {
-            "Column": {
-              "children": {"explicitList": ["first_name_field", "last_name_field", "email_field", "message_field"]},
-              "alignment": "stretch",
-              "distribution": "start"
-            }
-          }
+          "component": "Column",
+          "children": ["first_name_field", "last_name_field", "email_field", "message_field"],
+          "justify": "start",
+          "align": "stretch"
         },
         {
           "id": "first_name_field",
-          "weight": 1.0,
-          "component": {
-            "TextField": {
-              "label": {"literalString": "First Name *"},
-              "text": {"path": "/form/firstName"},
-              "textFieldType": "shortText"
-            }
-          }
+          "component": "TextField",
+          "label": "First Name *",
+          "value": {"path": "/form/firstName"},
+          "variant": "shortText"
         },
         {
           "id": "last_name_field",
-          "weight": 1.0,
-          "component": {
-            "TextField": {
-              "label": {"literalString": "Last Name *"},
-              "text": {"path": "/form/lastName"},
-              "textFieldType": "shortText"
-            }
-          }
+          "component": "TextField",
+          "label": "Last Name *",
+          "value": {"path": "/form/lastName"},
+          "variant": "shortText"
         },
         {
           "id": "email_field",
-          "weight": 1.0,
-          "component": {
-            "TextField": {
-              "label": {"literalString": "Email *"},
-              "text": {"path": "/form/email"},
-              "textFieldType": "shortText"
-            }
-          }
+          "component": "TextField",
+          "label": "Email *",
+          "value": {"path": "/form/email"},
+          "variant": "shortText"
         },
         {
           "id": "message_field",
-          "weight": 1.0,
-          "component": {
-            "TextField": {
-              "label": {"literalString": "Message"},
-              "text": {"path": "/form/message"},
-              "textFieldType": "longText"
-            }
-          }
+          "component": "TextField",
+          "label": "Message",
+          "value": {"path": "/form/message"},
+          "variant": "longText"
         },
         {
           "id": "submit_button",
-          "weight": 1.0,
-          "component": {
-            "Button": {
-              "child": "button_text",
-              "action": {"name": "submitContactForm"}
+          "component": "Button",
+          "child": "button_text",
+          "action": {
+            "event": {
+              "name": "submitContactForm"
             }
           }
         },
         {
           "id": "button_text",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"literalString": "Send Message"}
-            }
-          }
+          "component": "Text",
+          "text": "Send Message"
         }
       ]
     }
   },
   {
+    "version": "v0.9",
     "updateDataModel": {
       "surfaceId": "contact_form",
       "path": "/form",

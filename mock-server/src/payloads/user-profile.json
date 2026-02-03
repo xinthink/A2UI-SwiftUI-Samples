@@ -1,161 +1,106 @@
 [
   {
+    "version": "v0.9",
     "createSurface": {
       "surfaceId": "user_profile",
       "catalogId": "https://a2ui.dev/specification/0.9/standard_catalog_definition.json"
     }
   },
   {
+    "version": "v0.9",
     "updateComponents": {
       "surfaceId": "user_profile",
       "components": [
         {
           "id": "root",
-          "weight": 1.0,
-          "component": {
-            "Card": {
-              "contentChild": "card_content"
-            }
-          }
+          "component": "Card",
+          "content": "card_content"
         },
         {
           "id": "card_content",
-          "weight": 1.0,
-          "component": {
-            "Column": {
-              "children": {"explicitList": ["header_row", "name_text", "title_text", "divider", "contact_info"]},
-              "alignment": "center",
-              "distribution": "start"
-            }
-          }
+          "component": "Column",
+          "children": ["header_row", "name_text", "title_text", "divider", "contact_info"],
+          "justify": "start",
+          "align": "center"
         },
         {
           "id": "header_row",
-          "weight": 1.0,
-          "component": {
-            "Row": {
-              "children": {"explicitList": ["avatar_image", "spacer"]},
-              "alignment": "center",
-              "distribution": "start"
-            }
-          }
+          "component": "Row",
+          "children": ["avatar_image", "spacer"],
+          "justify": "start",
+          "align": "center"
         },
         {
           "id": "avatar_image",
-          "weight": 1.0,
-          "component": {
-            "Image": {
-              "url": {"path": "/user/avatarUrl"}
-            }
-          }
+          "component": "Image",
+          "url": {"path": "/user/avatarUrl"}
         },
         {
           "id": "spacer",
-          "weight": 1.0,
-          "component": {
-            "Divider": {}
-          }
+          "component": "Divider"
         },
         {
           "id": "name_text",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"path": "/user/name"},
-              "alignment": "center"
-            }
-          }
+          "component": "Text",
+          "text": {"path": "/user/name"},
+          "align": "center"
         },
         {
           "id": "title_text",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"path": "/user/title"},
-              "alignment": "center"
-            }
-          }
+          "component": "Text",
+          "text": {"path": "/user/title"},
+          "align": "center"
         },
         {
           "id": "divider",
-          "weight": 1.0,
-          "component": {
-            "Divider": {}
-          }
+          "component": "Divider"
         },
         {
           "id": "contact_info",
-          "weight": 1.0,
-          "component": {
-            "Column": {
-              "children": {"explicitList": ["email_row", "phone_row"]},
-              "alignment": "stretch",
-              "distribution": "start"
-            }
-          }
+          "component": "Column",
+          "children": ["email_row", "phone_row"],
+          "justify": "start",
+          "align": "stretch"
         },
         {
           "id": "email_row",
-          "weight": 1.0,
-          "component": {
-            "Row": {
-              "children": {"explicitList": ["email_icon", "email_text"]},
-              "alignment": "center",
-              "distribution": "start"
-            }
-          }
+          "component": "Row",
+          "children": ["email_icon", "email_text"],
+          "justify": "start",
+          "align": "center"
         },
         {
           "id": "email_icon",
-          "weight": 1.0,
-          "component": {
-            "Icon": {
-              "name": {"literalString": "email"}
-            }
-          }
+          "component": "Icon",
+          "name": "email"
         },
         {
           "id": "email_text",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"path": "/user/email"}
-            }
-          }
+          "component": "Text",
+          "text": {"path": "/user/email"}
         },
         {
           "id": "phone_row",
-          "weight": 1.0,
-          "component": {
-            "Row": {
-              "children": {"explicitList": ["phone_icon", "phone_text"]},
-              "alignment": "center",
-              "distribution": "start"
-            }
-          }
+          "component": "Row",
+          "children": ["phone_icon", "phone_text"],
+          "justify": "start",
+          "align": "center"
         },
         {
           "id": "phone_icon",
-          "weight": 1.0,
-          "component": {
-            "Icon": {
-              "name": {"literalString": "phone"}
-            }
-          }
+          "component": "Icon",
+          "name": "phone"
         },
         {
           "id": "phone_text",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"path": "/user/phone"}
-            }
-          }
+          "component": "Text",
+          "text": {"path": "/user/phone"}
         }
       ]
     }
   },
   {
+    "version": "v0.9",
     "updateDataModel": {
       "surfaceId": "user_profile",
       "path": "/user",

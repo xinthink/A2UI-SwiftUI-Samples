@@ -1,159 +1,116 @@
 [
   {
+    "version": "v0.9",
     "createSurface": {
       "surfaceId": "todo_list",
       "catalogId": "https://a2ui.dev/specification/0.9/standard_catalog_definition.json"
     }
   },
   {
+    "version": "v0.9",
     "updateComponents": {
       "surfaceId": "todo_list",
       "components": [
         {
           "id": "root",
-          "weight": 1.0,
-          "component": {
-            "Column": {
-              "children": {"explicitList": ["header", "todo_list_component", "add_button"]},
-              "alignment": "stretch",
-              "distribution": "start"
-            }
-          }
+          "component": "Column",
+          "children": ["header", "todo_list_component", "add_button"],
+          "justify": "start",
+          "align": "stretch"
         },
         {
           "id": "header",
-          "weight": 1.0,
-          "component": {
-            "Row": {
-              "children": {"explicitList": ["title", "counter"]},
-              "alignment": "center",
-              "distribution": "spaceBetween"
-            }
-          }
+          "component": "Row",
+          "children": ["title", "counter"],
+          "justify": "spaceBetween",
+          "align": "center"
         },
         {
           "id": "title",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"literalString": "My Todo List"}
-            }
-          }
+          "component": "Text",
+          "text": "My Todo List"
         },
         {
           "id": "counter",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"path": "/stats/completed"},
-              "alignment": "end"
-            }
-          }
+          "component": "Text",
+          "text": {"path": "/stats/completed"},
+          "align": "end"
         },
         {
           "id": "todo_list_component",
-          "weight": 1.0,
-          "component": {
-            "List": {
-              "children": {
-                "template": {
-                  "componentId": "todo_item",
-                  "dataBinding": "/todos"
-                }
-              }
-            }
+          "component": "List",
+          "children": {
+            "componentId": "todo_item",
+            "path": "/todos"
           }
         },
         {
           "id": "todo_item",
-          "weight": 1.0,
-          "component": {
-            "Row": {
-              "children": {"explicitList": ["checkbox", "todo_text", "delete_button"]},
-              "alignment": "center",
-              "distribution": "start"
-            }
-          }
+          "component": "Row",
+          "children": ["checkbox", "todo_text", "delete_button"],
+          "justify": "start",
+          "align": "center"
         },
         {
           "id": "checkbox",
-          "weight": 1.0,
-          "component": {
-            "Button": {
-              "child": "checkbox_icon",
-              "action": {
-                "name": "toggleTodo",
-                "context": {
-                  "id": {"path": "id"},
-                  "completed": {"path": "completed"}
-                }
+          "component": "Button",
+          "child": "checkbox_icon",
+          "action": {
+            "event": {
+              "name": "toggleTodo",
+              "context": {
+                "id": {"path": "id"},
+                "completed": {"path": "completed"}
               }
             }
           }
         },
         {
           "id": "checkbox_icon",
-          "weight": 1.0,
-          "component": {
-            "Icon": {
-              "name": {"path": "icon"}
-            }
-          }
+          "component": "Icon",
+          "name": {"path": "icon"}
         },
         {
           "id": "todo_text",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"path": "text"}
-            }
-          }
+          "component": "Text",
+          "text": {"path": "text"}
         },
         {
           "id": "delete_button",
-          "weight": 1.0,
-          "component": {
-            "Button": {
-              "child": "delete_icon",
-              "action": {
-                "name": "deleteTodo",
-                "context": {"id": {"path": "id"}}
-              }
+          "component": "Button",
+          "child": "delete_icon",
+          "action": {
+            "event": {
+              "name": "deleteTodo",
+              "context": {"id": {"path": "id"}}
             }
           }
         },
         {
           "id": "delete_icon",
-          "weight": 1.0,
-          "component": {
-            "Icon": {
-              "name": {"literalString": "delete"}
-            }
-          }
+          "component": "Icon",
+          "name": "delete"
         },
         {
           "id": "add_button",
-          "weight": 1.0,
-          "component": {
-            "Button": {
-              "child": "add_text",
-              "action": {"name": "addTodo"}
+          "component": "Button",
+          "child": "add_text",
+          "action": {
+            "event": {
+              "name": "addTodo"
             }
           }
         },
         {
           "id": "add_text",
-          "weight": 1.0,
-          "component": {
-            "Text": {
-              "text": {"literalString": "Add New Task"}
-            }
-          }
+          "component": "Text",
+          "text": "Add New Task"
         }
       ]
     }
   },
   {
+    "version": "v0.9",
     "updateDataModel": {
       "surfaceId": "todo_list",
       "path": "/",
