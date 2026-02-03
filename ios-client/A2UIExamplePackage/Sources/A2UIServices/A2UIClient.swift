@@ -36,10 +36,37 @@ public final class A2UIClient: Sendable {
         print("Get JSON lines: \(lines)")
 
         for line in lines where !line.isEmpty {
-            guard let lineData = line.data(using: .utf8) else { continue }
+            guard let lineData = line.data(using: .utf8) else {
+                print("A2UIClient: Skipping line - invalid UTF8")
+                continue
+            }
 
-            let message = try JSONDecoder().decode(ServerMessage.self, from: lineData)
-            await delegate?.didReceive(message: message)
+            do {
+                let message = try JSONDecoder().decode(ServerMessage.self, from: lineData)
+                await delegate?.didReceive(message: message)
+            } catch {
+                print("A2UIClient: Failed to decode message - \(error)")
+                if let decodingError = error as? DecodingError {
+                    switch decodingError {
+                    case .dataCorrupted(let context):
+                        print("  Context: \(context.debugDescription)")
+                        print("  CodingPath: \(context.codingPath.map { $0.stringValue }.joined(separator: "."))")
+                    case .keyNotFound(let key, let context):
+                        print("  Key not found: \(key.stringValue)")
+                        print("  Context: \(context.debugDescription)")
+                    case .typeMismatch(let type, let context):
+                        print("  Type mismatch: expected \(type)")
+                        print("  Context: \(context.debugDescription)")
+                    case .valueNotFound(let type, let context):
+                        print("  Value not found: expected \(type)")
+                        print("  Context: \(context.debugDescription)")
+                    @unknown default:
+                        print("  Unknown error")
+                    }
+                }
+                let preview = String(data: lineData, encoding: .utf8) ?? "(binary data)"
+                print("  Line content (first 500 chars): \(String(preview.prefix(500)))")
+            }
         }
     }
 
