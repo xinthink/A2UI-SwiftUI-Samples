@@ -25,7 +25,7 @@ internal struct A2UIRowView: View {
             with: resolver
         )
 
-        let alignment = resolveAlignment(props.alignment)
+        let alignment = resolveAlignment(props.align)
 
         HStack(alignment: alignment, spacing: determineSpacing()) {
             ForEach(childIds, id: \.self) { childId in

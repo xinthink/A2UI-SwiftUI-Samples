@@ -134,9 +134,9 @@ public final class SurfaceManager: Sendable {
         in surfaceId: String,
         with resolver: DataBindingResolver
     ) -> [String] {
-        // Get the array from data model using the template's dataBinding path
+        // Get the array from data model using the template's path
         let dataModel = getDataModel(in: surfaceId)
-        let arrayValue = resolver.resolve(path: template.dataBinding, in: dataModel)
+        let arrayValue = resolver.resolve(path: template.path, in: dataModel)
 
         guard case .array(let items) = arrayValue else {
             return []

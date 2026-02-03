@@ -25,7 +25,7 @@ internal struct A2UIColumnView: View {
             with: resolver
         )
 
-        let alignment = resolveAlignment(props.alignment)
+        let alignment = resolveAlignment(props.align)
 
         VStack(alignment: alignment, spacing: determineSpacing()) {
             ForEach(childIds, id: \.self) { childId in

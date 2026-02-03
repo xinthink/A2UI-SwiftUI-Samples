@@ -21,7 +21,7 @@ internal struct A2UIModalView: View {
         VStack {
             A2UIRenderer(
                 surfaceId: surfaceId,
-                componentId: props.entryPointChild,
+                componentId: props.trigger,
                 client: client,
                 contextPath: contextPath
             )
@@ -32,7 +32,7 @@ internal struct A2UIModalView: View {
         .sheet(isPresented: $isPresented) {
             A2UIRenderer(
                 surfaceId: surfaceId,
-                componentId: props.contentChild,
+                componentId: props.content,
                 client: client,
                 contextPath: contextPath
             )

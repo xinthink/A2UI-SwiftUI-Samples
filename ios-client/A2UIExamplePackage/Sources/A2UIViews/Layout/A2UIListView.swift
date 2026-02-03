@@ -46,7 +46,7 @@ internal struct A2UIListView: View {
         if case .template(let template) = props.children {
             let resolver = DataBindingResolver()
             let dataModel = state.getDataModel(in: surfaceId)
-            let arrayValue = resolver.resolve(path: template.dataBinding, in: dataModel)
+            let arrayValue = resolver.resolve(path: template.path, in: dataModel)
 
             guard case .array(let items) = arrayValue else {
                 return []
@@ -54,7 +54,7 @@ internal struct A2UIListView: View {
 
             return items.indices.map { index in
                 let childId = "\(template.componentId)_\(index)"
-                let itemContextPath = "\(template.dataBinding)/\(index)"
+                let itemContextPath = "\(template.path)/\(index)"
                 return ChildContext(id: childId, contextPath: itemContextPath)
             }
         } else if case .explicitList(let ids) = props.children {

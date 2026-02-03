@@ -18,7 +18,7 @@ public final class DataBindingResolver: Sendable {
     /// Resolve a DynamicString value
     public func resolve(_ dynamicString: DynamicString, in dataModel: [String: JSONValue]) -> String {
         switch dynamicString {
-        case .literalString(let value):
+        case .literal(let value):
             return value
         case .path(let path):
             let value = resolve(path: path, in: dataModel)
@@ -29,7 +29,7 @@ public final class DataBindingResolver: Sendable {
     /// Resolve a DynamicNumber value
     public func resolve(_ dynamicNumber: DynamicNumber, in dataModel: [String: JSONValue]) -> Double {
         switch dynamicNumber {
-        case .literalNumber(let value):
+        case .literal(let value):
             return value
         case .path(let path):
             let value = resolve(path: path, in: dataModel)
@@ -40,7 +40,7 @@ public final class DataBindingResolver: Sendable {
     /// Resolve a DynamicBoolean value
     public func resolve(_ dynamicBoolean: DynamicBoolean, in dataModel: [String: JSONValue]) -> Bool {
         switch dynamicBoolean {
-        case .literalBoolean(let value):
+        case .literal(let value):
             return value
         case .path(let path):
             let value = resolve(path: path, in: dataModel)
@@ -116,7 +116,7 @@ public final class DataBindingResolver: Sendable {
         with context: [String: Any]?
     ) -> String {
         switch dynamicString {
-        case .literalString(let value):
+        case .literal(let value):
             return value
         case .path(let path):
             // Try to resolve from data model first

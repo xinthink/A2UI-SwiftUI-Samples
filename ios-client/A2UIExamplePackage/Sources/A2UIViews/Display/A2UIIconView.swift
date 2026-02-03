@@ -30,7 +30,7 @@ internal struct A2UIIconView: View {
         let dataModel = state.getDataModel(in: surfaceId)
 
         switch props.name {
-        case .literalString(let value):
+        case .literal(let value):
             return value
         case .path(let path):
             let fullPath = resolvePathWithContext(path)

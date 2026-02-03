@@ -20,11 +20,11 @@ internal struct A2UITabsView: View {
 
     var body: some View {
         let dataModel = state.getDataModel(in: surfaceId)
-        let firstTab = props.tabItems.first?.child
+        let firstTab = props.tabs.first?.child
         let selected = selection ?? firstTab
 
         TabView(selection: $selection) {
-            ForEach(props.tabItems, id: \.child) { tab in
+            ForEach(props.tabs, id: \.child) { tab in
                 A2UIRenderer(
                     surfaceId: surfaceId,
                     componentId: tab.child,

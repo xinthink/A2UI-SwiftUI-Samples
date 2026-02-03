@@ -18,7 +18,7 @@ internal struct A2UICardView: View {
     var body: some View {
         A2UIRenderer(
             surfaceId: surfaceId,
-            componentId: props.child,
+            componentId: props.content,
             client: client,
             contextPath: contextPath
         )

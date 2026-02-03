@@ -35,12 +35,12 @@ internal struct A2UITextFieldView: View {
         let resolver = DataBindingResolver()
         let dataModel = state.getDataModel(in: surfaceId)
         let label = resolver.resolve(props.label, in: dataModel)
-        let variant = props.textFieldType ?? "shortText"
+        let variant = props.variant ?? "shortText"
 
         let isMultiline = variant == "longText"
 
         // Initialize text from data model on first appearance
-        let resolvedValue = props.text.map { resolver.resolve($0, in: dataModel) } ?? ""
+        let resolvedValue = props.value.map { resolver.resolve($0, in: dataModel) } ?? ""
 
         Group {
             if isMultiline {
@@ -66,7 +66,7 @@ internal struct A2UITextFieldView: View {
     }
 
     private func updateDataModel(_ newValue: String) {
-        guard let textPath = props.text else { return }
+        guard let textPath = props.value else { return }
 
         if case .path(let path) = textPath {
             state.updateDataModel(

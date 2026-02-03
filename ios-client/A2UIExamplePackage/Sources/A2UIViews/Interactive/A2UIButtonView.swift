@@ -18,7 +18,7 @@ internal struct A2UIButtonView: View {
     let contextPath: String?
 
     var body: some View {
-        let isPrimary = props.primary ?? false
+        let isPrimary = props.variant == "primary"
 
         Button(action: {
             Task {
@@ -42,9 +42,14 @@ internal struct A2UIButtonView: View {
         let dataModel = state.getDataModel(in: surfaceId)
         let resolver = DataBindingResolver()
 
+        guard let event = action.event else {
+            state.errorMessage = "Action has no event"
+            return
+        }
+
         // Resolve action context with current data model
         var resolvedContext: [String: JSONValue] = [:]
-        if let context = action.context {
+        if let context = event.context {
             for (key, value) in context {
                 let fullPath = resolvePathWithContext(value)
                 if let jsonValue = resolver.resolve(path: fullPath, in: dataModel) {
@@ -58,7 +63,7 @@ internal struct A2UIButtonView: View {
         }
 
         let clientAction = ClientAction(
-            action: action.name,
+            action: event.name,
             surfaceId: surfaceId,
             context: resolvedContext.isEmpty ? nil : resolvedContext
         )
@@ -72,7 +77,7 @@ internal struct A2UIButtonView: View {
 
     private func resolvePathWithContext(_ dynamicString: DynamicString) -> String {
         switch dynamicString {
-        case .literalString:
+        case .literal:
             return "" // Not a path
         case .path(let path):
             if path.hasPrefix("/") {
@@ -87,7 +92,7 @@ internal struct A2UIButtonView: View {
 
     private func resolveString(_ dynamicString: DynamicString, dataModel: [String: JSONValue]) -> String {
         switch dynamicString {
-        case .literalString(let value):
+        case .literal(let value):
             return value
         case .path(let path):
             let fullPath = resolvePathWithContext(dynamicString)

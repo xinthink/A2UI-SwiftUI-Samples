@@ -148,7 +148,7 @@ public final class A2UIState {
         with resolver: DataBindingResolver
     ) -> [String] {
         let dataModel = getDataModel(in: surfaceId)
-        let arrayValue = resolver.resolve(path: template.dataBinding, in: dataModel)
+        let arrayValue = resolver.resolve(path: template.path, in: dataModel)
 
         guard case .array(let items) = arrayValue else {
             return []

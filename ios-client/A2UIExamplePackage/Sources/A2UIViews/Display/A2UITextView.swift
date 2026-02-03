@@ -17,7 +17,7 @@ internal struct A2UITextView: View {
 
     var body: some View {
         let text = getText()
-        let alignment = resolveAlignment(props.alignment)
+        let alignment = resolveAlignment(props.align)
 
         Text(text)
             .multilineTextAlignment(alignment)
@@ -32,7 +32,7 @@ internal struct A2UITextView: View {
 
     private func resolveText(resolver: DataBindingResolver, dataModel: [String: JSONValue]) -> String {
         switch props.text {
-        case .literalString(let value):
+        case .literal(let value):
             return value
         case .path(let path):
             // Handle relative paths with context
