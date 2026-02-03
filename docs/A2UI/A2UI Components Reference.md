@@ -58,7 +58,7 @@ Display text content with optional styling.
   "id": "title",
   "component": {
     "Text": {
-      "text": {"literalString": "Welcome to A2UI"},
+      "text": "Welcome to A2UI",
       "usageHint": "h1"
     }
   }
@@ -76,7 +76,7 @@ Display images from URLs.
   "id": "logo",
   "component": {
     "Image": {
-      "url": {"literalString": "https://example.com/logo.png"}
+      "url": "https://example.com/logo.png",
     }
   }
 }
@@ -91,7 +91,7 @@ Display icons using Material Icons or custom icon sets.
   "id": "check-icon",
   "component": {
     "Icon": {
-      "name": {"literalString": "check_circle"}
+      "name": "check_circle",
     }
   }
 }
@@ -123,7 +123,7 @@ Clickable button with action support.
   "id": "submit-btn-text",
   "component": {
     "Text": {
-      "text": { "literalString": "Submit" }
+      "text": "Submit",
     }
   }
 }
@@ -153,7 +153,7 @@ Text input field.
   "id": "email-input",
   "component": {
     "TextField": {
-      "label": {"literalString": "Email Address"},
+      "label": "Email Address",
       "text": {"path": "/user/email"},
       "textFieldType": "shortText"
     }
@@ -170,7 +170,7 @@ Boolean toggle.
   "id": "terms-checkbox",
   "component": {
     "Checkbox": {
-      "label": {"literalString": "I agree to the terms"},
+      "label": "I agree to the terms",
       "value": {"path": "/form/agreedToTerms"}
     }
   }
@@ -220,9 +220,9 @@ Tabbed interface.
   "component": {
     "Tabs": {
       "tabItems": [
-        {"title": {"literalString": "General"}, "child": "general-settings"},
-        {"title": {"literalString": "Privacy"}, "child": "privacy-settings"},
-        {"title": {"literalString": "Advanced"}, "child": "advanced-settings"}
+        {"title": "General", "child": "general-settings"},
+        {"title": "Privacy", "child": "privacy-settings"},
+        {"title": "Advanced", "child": "advanced-settings"}
       ]
     }
   }

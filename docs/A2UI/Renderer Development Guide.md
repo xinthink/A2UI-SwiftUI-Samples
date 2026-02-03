@@ -30,10 +30,9 @@ This section details the fundamental mechanics of the A2UI protocol. A compliant
     - If a `catalogId` is provided, ensure the corresponding component catalog is used (defaulting to the standard catalog if omitted).
     - Apply any global `styles` (e.g., `font`, `primaryColor`) provided in this message.
 - **Data Binding Resolution**:
-  - Implement a resolver for `BoundValue` objects found in component properties.
-  - If only a `literal*` value is present (`literalString`, `literalNumber`, etc.), use it directly.
-  - If only a `path` is present, resolve it against the surface's data model.
-  - If both `path` and `literal*` are present, first update the data model at `path` with the literal value, then bind the component property to that `path`.
+  - Implement a resolver for `DynamicString`, `DynamicNumber`, and `DynamicBoolean` types.
+  - v0.9 format: Use literal values directly (e.g., `"text": "Hello"`), or use path for data binding (e.g., `"value": { "path": "/form/name" }`).
+  - The decoder also supports v0.8 legacy format (`literalString`, `literalNumber`, `literalBoolean` wrappers) for backward compatibility.
 - **Dynamic List Rendering**:
   - For containers with a `children.template`, iterate over the data list found at `template.dataBinding` (which resolves to a list in the data model).
   - For each item in the data list, render the component specified by `template.componentId`, making the item's data available for relative data binding within the template.

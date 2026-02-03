@@ -111,24 +111,27 @@ curl -X POST http://localhost:3000/api/action \
 ```json
 [
   {
+    "version": "v0.9",
     "createSurface": {
       "surfaceId": "contact_form",
       "catalogId": "https://a2ui.dev/specification/0.9/standard_catalog_definition.json"
     }
   },
   {
+    "version": "v0.9",
     "updateComponents": {
       "surfaceId": "contact_form",
       "components": [
         {
           "id": "title",
           "component": "Text",
-          "text": { "literalString": "Contact Us" }
+          "text": "Contact Us"
         }
       ]
     }
   },
   {
+    "version": "v0.9",
     "updateDataModel": {
       "surfaceId": "contact_form",
       "path": "/form",
@@ -149,7 +152,7 @@ Components can bind to data using JSON Pointer paths:
 {
   "id": "name_field",
   "component": "TextField",
-  "label": { "literalString": "Name" },
+  "label": "Name",
   "value": { "path": "/form/name" }
 }
 ```

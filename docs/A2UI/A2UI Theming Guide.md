@@ -39,7 +39,7 @@ Agents provide semantic hints (not visual styles) to guide client rendering:
   "id": "title",
   "component": {
     "Text": {
-      "text": {"literalString": "Welcome"},
+      "text": "Welcome",
       "usageHint": "h1"
     }
   }
@@ -137,7 +137,7 @@ Agents should provide semantic hints (`usageHint`), never visual styles:
 {
   "component": {
     "Text": {
-      "text": {"literalString": "Welcome"},
+      "text": "Welcome",
       "usageHint": "h1"
     }
   }
@@ -147,7 +147,7 @@ Agents should provide semantic hints (`usageHint`), never visual styles:
 {
   "component": {
     "Text": {
-      "text": {"literalString": "Welcome"},
+      "text": "Welcome",
       "fontSize": 24,
       "color": "#FF0000"
     }

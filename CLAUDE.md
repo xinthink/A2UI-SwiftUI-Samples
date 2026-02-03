@@ -13,7 +13,7 @@ The project showcases how agents can generate rich, interactive UIs using JSON w
 
 ### Current Status (February 2026)
 
-🔧 **A2UI v0.9 Spec Migration In Progress**
+✅ **A2UI v0.9 Spec Migration Complete**
 - Pure v0.9 implementation (v0.8 legacy code removed)
 - Contact form example: Fixed blank screen issue (ComponentWrapper flat format support)
 - Error logging added for decode failures
@@ -24,7 +24,7 @@ The project showcases how agents can generate rich, interactive UIs using JSON w
 - Added decode error logging to A2UIClient
 
 **Known Issues:**
-- Contact Form example: Blank screen (being fixed)
+- None
 
 ## Architecture
 
