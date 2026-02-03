@@ -11,18 +11,20 @@ This is an A2UI (Agent-to-UI) v0.9 implementation project with:
 
 The project showcases how agents can generate rich, interactive UIs using JSON without executing arbitrary code.
 
-### Current Status (January 2026)
+### Current Status (February 2026)
 
-✅ **Fully functional end-to-end implementation**
-- Contact form example renders and submits correctly
-- All A2UI v0.9 protocol messages supported
-- Both ChildList formats handled (simple array and wrapped object)
-- Data binding with JSON Pointer working
-- User actions successfully sent to server
+🔧 **A2UI v0.9 Spec Migration In Progress**
+- Pure v0.9 implementation (v0.8 legacy code removed)
+- Contact form example: Fixed blank screen issue (ComponentWrapper flat format support)
+- Error logging added for decode failures
 
 **Recent Fixes:**
-- `f68683d` - Support both ChildList formats per A2UI v0.9 spec
-- `b381742` - Resolve SwiftUI initialization issues in interactive components
+- ComponentWrapper now handles flat component format from mock server
+- Removed v0.8 legacy CodingKeys and fallback decoding
+- Added decode error logging to A2UIClient
+
+**Known Issues:**
+- Contact Form example: Blank screen (being fixed)
 
 ## Architecture
 

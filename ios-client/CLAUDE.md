@@ -2,18 +2,19 @@
 
 This is a native **iOS application** built with **Swift 6.1+** and **SwiftUI**. The codebase targets **iOS 18.0 and later**, allowing full use of modern Swift and iOS APIs. All concurrency is handled with **Swift Concurrency** (async/await, actors, @MainActor isolation) ensuring thread-safe code.
 
-## Current Status (January 2026)
+## Current Status (February 2026)
 
-✅ **A2UI Protocol Implementation Complete**
+🔧 **A2UI v0.9 Spec Migration**
+- Pure v0.9 implementation (v0.8 legacy code removed)
 - All core protocol messages implemented (createSurface, updateComponents, updateDataModel, deleteSurface)
 - Both ChildList formats supported (simple array + wrapped object)
 - SwiftUI renderer working with data binding via JSON Pointer
 - Interactive components (TextField, Button, Checkbox) functional
-- End-to-end validation complete: form rendering, data binding, action submission
+- ComponentWrapper now handles flat format (matches mock server JSON structure)
+- Error logging added for decode failures
 
-**Known Issues Resolved:**
-- ✅ Blank screen on form example (ChildList format mismatch)
-- ✅ SwiftUI initialization crashes (@Environment access in init)
+**Known Issues:**
+- Contact Form example: Blank screen (ComponentWrapper flat format support added)
 
 - **Frameworks & Tech:** SwiftUI for UI, Swift Concurrency with strict mode, Swift Package Manager for modular architecture
 - **Architecture:** Model-View (MV) pattern using pure SwiftUI state management. We avoid MVVM and instead leverage SwiftUI's built-in state mechanisms (@State, @Observable, @Environment, @Binding)
